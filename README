@@ -15,6 +15,8 @@ Future Work:
         - format of the deck?
         - enable/disable card checking
     - card validation
+    - add the ability to read and old decklist from a file
     - validate the number of cards allowed in a deck
     - Print decklist to a PDF
     - Print card images to a PDF
+    - add the ability to differentiate a sideboard
