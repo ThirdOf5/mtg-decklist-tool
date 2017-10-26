@@ -9,3 +9,12 @@ Compilation & run instructions:
     >$ python3 main.py
 
 
+Future Work:
+    - command line flags
+        - eg, only one of each card, 4 of each card, etc
+        - format of the deck?
+        - enable/disable card checking
+    - card validation
+    - validate the number of cards allowed in a deck
+    - Print decklist to a PDF
+    - Print card images to a PDF
