@@ -34,6 +34,7 @@ class Deck:
                 False if adding the card failed for any reason.
         '''
         self.decklist[card] = number # TODO convert to lower case for storing (?)
+                                        # --> means we would have to fix them for printing
 
         # if the card is not a basic land
         if not basic_land_cards.count(card): # TODO convert to lower case for the comparison!
@@ -89,7 +90,13 @@ def create_deck():
         i += 1
         input_tmp = input("{} Add a number of cards to the deck: ".format(i))
         input_lst = input_tmp.split()
-        number = int(input_lst[0])
+        # be able to accept "1 Shock" or just "Shock"
+        try:
+            number = int(input_lst[0])
+        except:
+            number = 1
+            input_lst.insert(0, 1)
+
         # FIXME how to create a string back from a list efficiently?
         card = ""
         for c in input_lst[1:]:
