@@ -1,0 +1,11 @@
+Author: Caleb Jhones
+Version: 0.1
+Goal:
+    Create a command-line based utility to create decklists. Card names are going to be validated through
+    the scryfall.com API. Currently, decklists are saved as plaintext. However, a future implementation will
+    allow for decks to be output to a PDF file in either text or card image formats (for proxying etc)
+Compilation & run instructions:
+    >$ cd decklist-tool
+    >$ python3 main.py
+
+
