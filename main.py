@@ -51,6 +51,7 @@ class Deck:
         ''' Print our decklist in a readable format. '''
         print("\n== " + self.deck_name + " ==")
         print("Format: " + self.deck_format.name)
+        print("Total number of cards: {}".format(sum(self.decklist.values())))
         for card in self.decklist:
             print("{}x {}".format(self.decklist[card], card))
 
