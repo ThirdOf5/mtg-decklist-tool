@@ -34,11 +34,11 @@ class Deck:
                 True if adding the card was successful.
                 False if adding the card failed for any reason.
         '''
-        self.decklist[card] = number # TODO convert to lower case for storing (?)
-                                        # --> means we would have to fix them for printing
+        # the core of the function. Everything else is checking for deckbuilding restrictions
+        self.decklist[card] = number
 
         # if the card is not a basic land
-        if not basic_land_cards.count(card): # TODO convert to lower case for the comparison!
+        if not basic_land_cards.count(card.lower()):
             # if we would have more than the max allowed number of that card
             if self.decklist[card] > self.max_copies:
                 self.decklist[card] = self.max_copies
@@ -60,8 +60,7 @@ class Deck:
         ''' Print our decklist to a file with the same name as the deck's name.
             CAUTION: this will over-write a file with the same name!
         '''
-        print("TODO - print to file")
-        # TODO
+        print("TODO - write to file") # TODO
 
 def create_deck():
     ''' Create and run a REPL to read card names and quantities from the user.'''
@@ -101,12 +100,12 @@ def create_deck():
             number = 1
             input_lst.insert(0, 1)
 
-        # FIXME how to create a string back from a list efficiently?
+        # FIXME how to create a string from a list of words efficiently?
         card = ""
         for c in input_lst[1:]:
             card += c
             card += " "
-        card = card.strip()
+        card = card.strip().lower()
 
         # actually add the card(s) to our decklist
         my_deck.add_card(number, card)
