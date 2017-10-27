@@ -25,7 +25,7 @@ Ideal use cycle:
 
 Future Work:
     - command line flags
-        - enable/disable card checking
+        - enable/disable card name validation
         - type of output (default to on-screen, allow user to specify txt, pdf text, or pdf image)
         - debug mode? (use a set name/format for speed in testing)
     - card name validation
