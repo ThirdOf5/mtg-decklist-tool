@@ -1,22 +1,36 @@
 Author: Caleb Jhones
-Version: 0.1
+Version: 0.2
 Goal:
     Create a command-line based utility to create decklists. Card names are going to be validated through
     the scryfall.com API. Currently, decklists are saved as plaintext. However, a future implementation will
-    allow for decks to be output to a PDF file in either text or card image formats (for proxying etc)
+    allow for decks to be output to a PDF file in either text or card image formats (for proxying etc).
+
 Compilation & run instructions:
     >$ cd decklist-tool
     >$ python3 main.py
 
+Usage:
+    - Generally, follow the prompts on-screen.
+    - Card names are accepted in the following format: `[n] {card name}`. If n is omitted, one copy of the card
+    will be added to the deck. n cannot be greater than a format-specified number of cards, except, of course,
+    for the six basic land types.
+    - To quit the card-adding repl, type either QUIT or Q.
+
+Ideal use cycle:
+    1. run the utility
+        - flags to specify what type of output is desired (txt, pdf decklist, pdf proxies)
+    2. specify the deck's name and format
+    3. enter a repl-type of input style, where the user enters card quantities and names
+    4. when the user is done entering cards, generate the desired output format
 
 Future Work:
     - command line flags
-        - eg, only one of each card, 4 of each card, etc
-        - format of the deck?
         - enable/disable card checking
-    - card validation
-    - card legality validation (based on scryfall.com)
+        - type of output (default to on-screen, allow user to specify txt, pdf text, or pdf image)
+        - debug mode? (use a set name/format for speed in testing)
+    - card name validation
+    - card format legality validation (based on scryfall.com)
     - add the ability to read and old decklist from a file
-    - Print decklist to a PDF
-    - Print card images to a PDF
+    - print decklist to a PDF
+    - print card images to a PDF
     - add the ability to differentiate a sideboard
