@@ -54,7 +54,7 @@ class Deck:
         print("Format: " + self.deck_format.name)
         print("Total number of cards: {}".format(sum(self.decklist.values())))
         for card in self.decklist:
-            print("{}x {}".format(self.decklist[card], card))
+            print("{}x {}".format(self.decklist[card], card.title()))
 
     def save_deck(self):
         ''' Print our decklist to a file with the same name as the deck's name.
