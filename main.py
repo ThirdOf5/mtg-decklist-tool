@@ -8,6 +8,7 @@ class DeckFormat(Enum):
     Standard = 1
     Modern = 2
     EDH = 3
+    Pauper = 4
 
 class Card:
     def __init__(self, card_name):
@@ -70,7 +71,7 @@ def create_deck():
 
     # take deck format
     print("Select a number for what format you would like: ")
-    print("\t1. Standard\n\t2. Modern\n\t3. Commander/EDH\n")
+    print("\t1. Standard\n\t2. Modern\n\t3. Commander/EDH\n\t4. Pauper\n")
     format_in = input("> ")
     if format_in == '1':
         my_format = DeckFormat.Standard
@@ -78,6 +79,8 @@ def create_deck():
         my_format = DeckFormat.Modern
     elif format_in == '3':
         my_format = DeckFormat.EDH
+    elif format_in == '4':
+        my_format = DeckFormat.Pauper
     else:
         print("ERROR: That wasn't an option! Assuming standard as the format of choice.")
         my_format = DeckFormat.Standard
