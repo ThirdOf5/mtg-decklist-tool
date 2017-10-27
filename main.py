@@ -9,6 +9,7 @@ class DeckFormat(Enum):
     Modern = 2
     EDH = 3
     Pauper = 4
+    Freeform = 5
 
 class Card:
     def __init__(self, card_name):
@@ -65,13 +66,12 @@ class Deck:
 
 def create_deck():
     ''' Create and run a REPL to read card names and quantities from the user.'''
-
     # ask the user for a deck name
     my_name = input("Please give a name for your deck: ")
 
     # take deck format
     print("Select a number for what format you would like: ")
-    print("\t1. Standard\n\t2. Modern\n\t3. Commander/EDH\n\t4. Pauper\n")
+    print("\t1. Standard\n\t2. Modern\n\t3. Commander/EDH\n\t4. Pauper\n\t5. Freeform")
     format_in = input("> ")
     if format_in == '1':
         my_format = DeckFormat.Standard
@@ -81,9 +81,11 @@ def create_deck():
         my_format = DeckFormat.EDH
     elif format_in == '4':
         my_format = DeckFormat.Pauper
+    elif format_in == '5':
+        my_format = DeckFormat.Freeform
     else:
-        print("ERROR: That wasn't an option! Assuming standard as the format of choice.")
-        my_format = DeckFormat.Standard
+        print("ERROR: That wasn't an option! Assuming freeform.")
+        my_format = DeckFormat.Freeform
 
     # create a decklist object
     my_deck = Deck(my_name, my_format)
