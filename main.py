@@ -70,12 +70,12 @@ def create_deck():
     # take deck format
     print("Select a number for what format you would like: ")
     print("\t1. Standard\n\t2. Modern\n\t3. Commander/EDH\n")
-    f = input("> ")
-    if f == '1':
+    format_in = input("> ")
+    if format_in == '1':
         my_format = DeckFormat.Standard
-    elif f == '2':
+    elif format_in == '2':
         my_format = DeckFormat.Modern
-    elif f == '3':
+    elif format_in == '3':
         my_format = DeckFormat.EDH
     else:
         print("ERROR: That wasn't an option! Assuming standard as the format of choice.")
@@ -85,10 +85,12 @@ def create_deck():
     my_deck = Deck(my_name, my_format)
 
     # read cards from user
-    i = 0
-    while i < 4: # FIXME change this end condition!!
-        i += 1
-        input_tmp = input("{} Add a number of cards to the deck: ".format(i))
+    while True:
+        input_tmp = input("Add a number of cards to the deck: ")
+        # typing QUIT will take you out of the REPL
+        if input_tmp == "QUIT" or input_tmp == "Q":
+            break
+
         input_lst = input_tmp.split()
         # be able to accept "1 Shock" or just "Shock"
         try:
@@ -103,6 +105,8 @@ def create_deck():
             card += c
             card += " "
         card = card.strip()
+
+        # actually add the card(s) to our decklist
         my_deck.add_card(number, card)
 
     # return our deck object
