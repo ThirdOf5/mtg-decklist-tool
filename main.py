@@ -1,4 +1,5 @@
-from enum import Enum
+from enum import Enum # for deck format enumeration
+import sys # for sys.argv
 
 # Global definition of basic land types
 basic_land_cards = ["plains", "island", "swamp", "mountain", "forest", "wastes"]
@@ -115,5 +116,10 @@ def create_deck():
 
 if __name__ == '__main__':
     d = create_deck()
-    d.print_deck()
+    # TODO eventually we'll want to create some sort of argument handler class
+    if len(sys.argv) > 1:
+        if sys.argv[1] == '-p' or sys.argv[1] == '--print':
+            d.print_deck()
+        elif sys.argv[1] == '-s' or sys.argv[1] == '--save':
+            d.save_deck()
 
