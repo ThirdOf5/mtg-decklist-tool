@@ -36,6 +36,8 @@ class Deck:
                 True if adding the card was successful.
                 False if adding the card failed for any reason.
         '''
+        # TODO add scryfall card validation! --> it will get its own function, maybe its own class
+
         # the core of the function. Everything else is checking for deckbuilding restrictions
         self.decklist[card] = number
 
@@ -62,7 +64,13 @@ class Deck:
         ''' Print our decklist to a file with the same name as the deck's name.
             CAUTION: this will over-write a file with the same name!
         '''
-        print("TODO - write to file") # TODO
+        with open(self.deck_name + ".txt", 'w') as f:
+            f.write("== {} ==\n".format(self.deck_name))
+            f.write("Format: {}\n".format(self.deck_format.name))
+            f.write("Total number of cards: {}\n".format(sum(self.decklist.values())))
+            for card in self.decklist:
+                f.write("{}x {}\n".format(self.decklist[card], card.title()))
+
 
 def create_deck():
     ''' Create and run a REPL to read card names and quantities from the user.'''
