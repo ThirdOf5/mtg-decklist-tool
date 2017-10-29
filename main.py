@@ -1,5 +1,6 @@
 from enum import Enum # for deck format enumeration
 import sys # for sys.argv
+import requests # for easy http request processing
 
 # Global definition of basic land types
 basic_land_cards = ["plains", "island", "swamp", "mountain", "forest", "wastes"]
@@ -36,7 +37,11 @@ class Deck:
                 True if adding the card was successful.
                 False if adding the card failed for any reason.
         '''
-        # TODO add scryfall card validation! --> it will get its own function, maybe its own class
+        # validate card with scryfall first
+        http_obj = http_processing()
+        if not http_obj.validate_card(card):
+            print("ERROR: {} is not a real card!".format(card))
+            return False
 
         # the core of the function. Everything else is checking for deckbuilding restrictions
         self.decklist[card] = number
@@ -51,6 +56,8 @@ class Deck:
                 else:
                     print("ERROR: You can't have more than {} copies of a card in your deck!".format(self.max_copies))
                 print("\tDefaulting to the maximum number of allowed copies")
+                return False
+        return True
 
     def print_deck(self):
         ''' Print our decklist in a readable format. '''
@@ -60,7 +67,7 @@ class Deck:
         for card in self.decklist:
             print("{}x {}".format(self.decklist[card], card.title()))
 
-    def save_deck(self):
+    def save_deck_txt(self):
         ''' Print our decklist to a file with the same name as the deck's name.
             CAUTION: this will over-write a file with the same name!
         '''
@@ -70,6 +77,19 @@ class Deck:
             f.write("Total number of cards: {}\n".format(sum(self.decklist.values())))
             for card in self.decklist:
                 f.write("{}x {}\n".format(self.decklist[card], card.title()))
+
+class http_processing:
+    def __init__(self):
+        self.scryfall_uri = "https://api.scryfall.com"
+
+    def validate_card(self, card):
+        ''' Uses scryfall.com's API to validate a card name. '''
+        # TODO use requests library and scryfall to validate
+        return True
+
+    def get_card_image(self, card):
+        ''' Uses scryfall to pull a png image of a card for printing later. '''
+        # TODO pull and save a card image
 
 
 def create_deck():
@@ -133,5 +153,5 @@ if __name__ == '__main__':
         if sys.argv[1] == '-p' or sys.argv[1] == '--print':
             d.print_deck()
         elif sys.argv[1] == '-s' or sys.argv[1] == '--save':
-            d.save_deck()
+            d.save_deck_txt()
 
