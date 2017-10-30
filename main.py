@@ -41,7 +41,7 @@ class Deck:
         # validate card with scryfall first
         http_obj = http_processing()
         if not http_obj.validate_card(card):
-            print("ERROR: {} is not a real card!".format(card))
+            print("ERROR: {} is not a real card!".format(card.title()))
             return False
 
         # the core of the function. Everything else is checking for deckbuilding restrictions
@@ -62,7 +62,7 @@ class Deck:
 
     def print_deck(self):
         ''' Print our decklist in a readable format. '''
-        print("\n== " + self.deck_name + " ==")
+        print("\n== " + self.deck_name.title() + " ==")
         print("Format: " + self.deck_format.name)
         print("Total number of cards: {}".format(sum(self.decklist.values())))
         for card in self.decklist:
@@ -72,8 +72,8 @@ class Deck:
         ''' Print our decklist to a file with the same name as the deck's name.
             CAUTION: this will over-write a file with the same name!
         '''
-        with open(self.deck_name + ".txt", 'w') as f:
-            f.write("== {} ==\n".format(self.deck_name))
+        with open(self.deck_name.title() + ".txt", 'w') as f:
+            f.write("== {} ==\n".format(self.deck_name.title()))
             f.write("Format: {}\n".format(self.deck_format.name))
             f.write("Total number of cards: {}\n".format(sum(self.decklist.values())))
             for card in self.decklist:
@@ -81,18 +81,17 @@ class Deck:
 
 class http_processing:
     def __init__(self):
-        self.scryfall_uri = "https://api.scryfall.com/cards/search?q="
+        self.scryfall_url = "https://api.scryfall.com/cards/search?q="
 
     def validate_card(self, card):
         ''' Uses scryfall.com's API to validate a card name. '''
-        card_info = requests.get(self.scryfall_uri + card)
+        card_info = requests.get(self.scryfall_url + card)
         if card_info.status_code == 200:
             c = card_info.json()['data']
             for i in range(len(c)):
                 if card_info.json()['data'][i]['name'].lower() == card:
                     return True
         return False
-
 
     def get_card_image(self, card):
         ''' Uses scryfall to pull a png image of a card for printing later. '''
@@ -130,18 +129,16 @@ def create_deck():
     while True:
         input_tmp = input("Add a number of cards to the deck: ")
         # typing QUIT will take you out of the REPL
-        if input_tmp == "QUIT" or input_tmp == "Q":
+        if input_tmp == "QUIT" or input_tmp == "Q" or input_tmp == "":
             break
 
         input_lst = input_tmp.split()
-        # be able to accept "1 Shock" or just "Shock"
         try:
             number = int(input_lst[0])
         except:
             number = 1
             input_lst.insert(0, 1)
 
-        # FIXME how to create a string from a list of words efficiently?
         card = ""
         for c in input_lst[1:]:
             card += c
