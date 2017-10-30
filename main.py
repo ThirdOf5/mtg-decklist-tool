@@ -1,6 +1,7 @@
 from enum import Enum # for deck format enumeration
-import sys # for sys.argv
+import json # for parsing json blobs returned by scryfall
 import requests # for easy http request processing
+import sys # for sys.argv
 
 # Global definition of basic land types
 basic_land_cards = ["plains", "island", "swamp", "mountain", "forest", "wastes"]
@@ -80,16 +81,23 @@ class Deck:
 
 class http_processing:
     def __init__(self):
-        self.scryfall_uri = "https://api.scryfall.com"
+        self.scryfall_uri = "https://api.scryfall.com/cards/search?q="
 
     def validate_card(self, card):
         ''' Uses scryfall.com's API to validate a card name. '''
-        # TODO use requests library and scryfall to validate
-        return True
+        card_info = requests.get(self.scryfall_uri + card)
+        if card_info.status_code == 200:
+            c = card_info.json()['data']
+            for i in range(len(c)):
+                if card_info.json()['data'][i]['name'].lower() == card:
+                    return True
+        return False
+
 
     def get_card_image(self, card):
         ''' Uses scryfall to pull a png image of a card for printing later. '''
         # TODO pull and save a card image
+        return
 
 
 def create_deck():
