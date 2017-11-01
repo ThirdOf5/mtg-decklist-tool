@@ -5,6 +5,7 @@ import sys # for sys.argv
 
 # Global definition of basic land types
 basic_land_cards = ["plains", "island", "swamp", "mountain", "forest", "wastes"]
+validate = True
 
 class DeckFormat(Enum):
     Standard = 1
@@ -39,10 +40,11 @@ class Deck:
                 False if adding the card failed for any reason.
         '''
         # validate card with scryfall first
-        http_obj = http_processing()
-        if not http_obj.validate_card(card):
-            print("ERROR: {} is not a real card!".format(card.title()))
-            return False
+        if validate:
+            http_obj = http_processing()
+            if not http_obj.validate_card(card):
+                print("ERROR: {} is not a real card!".format(card.title()))
+                return False
 
         # the core of the function. Everything else is checking for deckbuilding restrictions
         self.decklist[card] = number
@@ -155,8 +157,10 @@ if __name__ == '__main__':
     d = create_deck()
     # TODO eventually we'll want to create some sort of argument handler class
     if len(sys.argv) > 1:
-        if sys.argv[1] == '-p' or sys.argv[1] == '--print':
+        if sys.argv.contains('-p') or sys.argv.contains('--print'):
             d.print_deck()
-        elif sys.argv[1] == '-s' or sys.argv[1] == '--save':
+        elif sys.argv.contains('-s') or sys.argv.contains('--save'):
             d.save_deck_txt()
+        elif sys.argv.contains('-v') or sys.argv.contains('--no-validation'):
+            validate = False
 

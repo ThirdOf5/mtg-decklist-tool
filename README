@@ -15,6 +15,10 @@ Usage:
     will be added to the deck. n cannot be greater than a format-specified number of cards, except, of course,
     for the six basic land types.
     - To quit the card-adding repl, type either QUIT or Q.
+    - Options available:
+        -s or --save saves the deck to a file
+        -p or --print prints the deck to stdout
+        -v or --no-validation turns off automatic card checking
 
 Ideal use cycle:
     1. run the utility
