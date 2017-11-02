@@ -28,11 +28,9 @@ Ideal use cycle:
     4. when the user is done entering cards, generate the desired output format
 
 Future Work:
-    - command line flags
-        - enable/disable card name validation
-        - type of output (default to on-screen, allow user to specify txt, pdf text, or pdf image)
     - card format legality validation
     - add the ability to read and old decklist from a file
     - print decklist to a PDF
     - print card images to a PDF
     - add the ability to delineate a sideboard
+
