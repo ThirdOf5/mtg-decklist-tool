@@ -81,6 +81,14 @@ class Deck:
             for card in self.decklist:
                 f.write("{}x {}\n".format(self.decklist[card], card.title()))
 
+    def save_deck_proxies(self):
+        ''' Prints the deck to a pdf as images for proxying. '''
+        # TODO
+        # pdf is working.... still need to figure out how to download the images from scryfall
+        # dont forget to use the http_processing.get_card_image() function!
+        print("TODO make a proxy pdf")
+        return
+
 class http_processing:
     def __init__(self):
         self.scryfall_url = "https://api.scryfall.com/cards/search?q="
@@ -98,6 +106,8 @@ class http_processing:
     def get_card_image(self, card):
         ''' Uses scryfall to pull a png image of a card for printing later. '''
         # TODO pull and save a card image
+            # prooooobably by curling the image into tmp? delete it afterward (maybe...?)
+        print("TODO make image curling function")
         return
 
 
