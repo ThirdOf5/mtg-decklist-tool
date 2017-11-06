@@ -85,8 +85,12 @@ class Deck:
 
     def save_deck_proxies(self):
         ''' Prints the deck to a pdf as images for proxying. '''
+
+        # helpful message aimed at impatient users :P
+        print("Exporting to PDF. This might take a minute!")
+
         http = http_processing()
-        fname = self.deck_name.title().replace(' ', '-')
+        fname = self.deck_format + '-' + self.deck_name.title().replace(' ', '-')
         image_list = list()
         counter = 0
         with open(fname + '.tex', 'w') as f:
@@ -109,9 +113,6 @@ class Deck:
             f.write('\n')
             f.write('\\end{landscape}\n')
             f.write('\\end{document}\n')
-
-        # helpful message aimed at impatient users :P
-        print("Exporting to PDF. This might take a minute!")
 
         # if the os call executes with a return status of 0
         if not os.system('pdflatex -halt-on-error -interaction=nonstopmode ' + fname + ' >> /dev/null'):
@@ -136,7 +137,7 @@ class http_processing:
         if card_info.status_code == 200:
             c = card_info.json()['data']
             for i in range(len(c)):
-                if card_info.json()['data'][i]['name'].lower() == card:
+                if c[i]['name'].lower() == card:
                     return True
         return False
 
@@ -144,11 +145,15 @@ class http_processing:
         ''' Uses scryfall to pull a png image of a card for printing later.
             Returns the path to the downloaded image.
         '''
-        card_info = requests.get(self.scryfall_url + card)
         img_url = ""
+        card_info = requests.get(self.scryfall_url + card)
         if card_info.status_code == 200:
-            # TODO not always [0]
-            img_url = card_info.json()['data'][0]['image_uris']['large']
+            c = card_info.json()['data']
+            for i in range(len(c)):
+                if c[i]['name'].lower() == card:
+                    img_url = c[i]['image_uris']['large']
+                else:
+                    continue
         path = "./images/" + card.replace(' ', '_') + ".jpg"
         img_file = open(path, 'wb')
         img_file.write(requests.get(img_url).content)
