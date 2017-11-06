@@ -1,5 +1,7 @@
+
 from enum import Enum # for deck format enumeration
 import json # for parsing json blobs returned by scryfall
+import os # for passing system calls to Linux
 import requests # for easy http request processing
 import sys # for sys.argv
 
@@ -83,10 +85,44 @@ class Deck:
 
     def save_deck_proxies(self):
         ''' Prints the deck to a pdf as images for proxying. '''
-        # TODO
-        # pdf is working.... still need to figure out how to download the images from scryfall
-        # dont forget to use the http_processing.get_card_image() function!
-        print("TODO make a proxy pdf")
+        http = http_processing()
+        fname = self.deck_name.title().replace(' ', '-')
+        image_list = list()
+        counter = 0
+        with open(fname + '.tex', 'w') as f:
+            f.write('\\documentclass[11pt] {article}\n')
+            f.write('\\usepackage[margin=0.3in]{geometry}\n')
+            f.write('\\usepackage{graphicx}\n')
+            f.write('\\usepackage{pdflscape}\n\n')
+            f.write('\\begin{document}\n')
+            f.write('\\begin{landscape}\n\n')
+            for card in self.decklist:
+                card_path = http.get_card_image(card)
+                image_list.append(card_path)
+                for i in range(self.decklist[card]):
+                    if counter == 4:
+                        counter = 0
+                        f.write('\n')
+                    counter += 1
+                    f.write('\\includegraphics[width=6.3cm]{' + card_path + '}\n')
+            f.write('\n')
+            f.write('\\end{landscape}\n')
+            f.write('\\end{document}\n')
+
+        # if the os call executes with a return status of 0
+        if not os.system('pdflatex -halt-on-error -interaction=nonstopmode ' + fname + ' >> /dev/null'):
+            print("PDF created")
+        else:
+            print("Something broke... No output file created")
+
+        # clean up all of the images we downloaded
+        for img in image_list:
+            print("Removing " + img)
+            #os.system('rm ' + img) # TODO uncomment this when the image downloader works
+
+        os.system('rm {}.aux {}.log'.format(fname, fname)) # clean up auxilary files
+        #os.system('rm {}.tex'.format(fname)) # clean up the tex file
+
         return
 
 class http_processing:
@@ -104,11 +140,13 @@ class http_processing:
         return False
 
     def get_card_image(self, card):
-        ''' Uses scryfall to pull a png image of a card for printing later. '''
+        ''' Uses scryfall to pull a png image of a card for printing later.
+            Returns the path to the downloaded image.
+        '''
         # TODO pull and save a card image
-            # prooooobably by curling the image into tmp? delete it afterward (maybe...?)
-        print("TODO make image curling function")
-        return
+        print("TODO make image downloading function")
+        path = "./images/lightning-bolt.jpg"
+        return path
 
 
 def create_deck():
@@ -167,10 +205,12 @@ if __name__ == '__main__':
     d = create_deck()
     # TODO eventually we'll want to create some sort of argument handler class
     if len(sys.argv) > 1:
-        if sys.argv.contains('-p') or sys.argv.contains('--print'):
+        if '-p' in sys.argv or '--print' in sys.argv:
             d.print_deck()
-        elif sys.argv.contains('-s') or sys.argv.contains('--save'):
+        if '-s' in sys.argv or '--save' in sys.argv:
             d.save_deck_txt()
-        elif sys.argv.contains('-v') or sys.argv.contains('--no-validation'):
+        if '-pdf' in sys.argv or '--proxies' in sys.argv:
+            d.save_deck_proxies()
+        if '-v' in sys.argv or '--no-validation' in sys.argv:
             validate = False
 
