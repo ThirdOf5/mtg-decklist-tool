@@ -1,9 +1,9 @@
 Author: Caleb Jhones
 Version: 0.2
 Goal:
-    Create a command-line based utility to create decklists. Card names are going to be validated through
-    the scryfall.com API. Currently, decklists are saved as plaintext. However, a future implementation will
-    allow for decks to be output to a PDF file in either text or card image formats (for proxying etc).
+    Create a command-line based utility to create decklists. Card names are
+    validated through the scryfall.com API. You can also output plaintext or
+    proxies with the appropriate command line flags.
 
 Compilation & run instructions:
     >$ cd decklist-tool
@@ -11,25 +11,27 @@ Compilation & run instructions:
 
 Usage:
     - Generally, follow the prompts on-screen.
-    - Card names are accepted in the following format: `[n] {card name}`. If n is omitted, one copy of the card
-    will be added to the deck. n cannot be greater than a format-specified number of cards, except, of course,
-    for the six basic land types.
+    - Card names are accepted in the following format: `[n] {card name}`. If
+        n is omitted, one copy of the card will be added to the deck. n cannot
+        be greater than a format-specified number of cards, except, of course,
+        for the six basic land types.
     - To quit the card-adding repl, type either QUIT or Q.
     - Options available:
         -s or --save saves the deck to a file
         -p or --print prints the deck to stdout
         -pdf or --proxies prints images of each card in the deck to a pdf
             ==> requires a network connection
-            ==> requires pdflatex to be installed on your machine (and currently that your machine is Linux-based, but
-                that hopefully will change soon)
+            ==> requires pdflatex to be installed on your machine (and
+                currently that your machine is Linux-based, but that hopefully
+                will change soon)
         -v or --no-validation turns off automatic card checking
             ==> necessary if you don't have an internet connection
 
 Ideal use cycle:
-    1. run the utility
-        - flags to specify what type of output is desired (txt, pdf decklist, pdf proxies)
+    1. the user runs the utility
+        - use flags (see below) to specify what type of output is desired
     2. specify the deck's name and format
-    3. enter a repl-type of input style, where the user enters card quantities and names
+    3. enter a repl, where the user enters card quantities and names
     4. when the user is done entering cards, generate the desired output format
 
 Future Work:
