@@ -1,5 +1,5 @@
 Author: Caleb Jhones
-Version: 0.2
+Version: 0.9
 Goal:
     Create a command-line based utility to create decklists. Card names are
     validated through the scryfall.com API. You can also output plaintext or
