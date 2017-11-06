@@ -18,7 +18,12 @@ Usage:
     - Options available:
         -s or --save saves the deck to a file
         -p or --print prints the deck to stdout
+        -pdf or --proxies prints images of each card in the deck to a pdf
+            ==> requires a network connection
+            ==> requires pdflatex to be installed on your machine (and currently that your machine is Linux-based, but
+                that hopefully will change soon)
         -v or --no-validation turns off automatic card checking
+            ==> necessary if you don't have an internet connection
 
 Ideal use cycle:
     1. run the utility
@@ -28,9 +33,9 @@ Ideal use cycle:
     4. when the user is done entering cards, generate the desired output format
 
 Future Work:
+    - better header for the pdf? maybe?
     - card format legality validation
     - add the ability to read and old decklist from a file
     - print decklist to a PDF
-    - print card images to a PDF
     - add the ability to delineate a sideboard
 
