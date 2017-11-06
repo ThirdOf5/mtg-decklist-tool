@@ -5,6 +5,10 @@ Goal:
     validated through the scryfall.com API. You can also output plaintext or
     proxies with the appropriate command line flags.
 
+Dependencies:
+    The Python library 'requests' must be installed. This can easily be done
+    with pip: `pip install requests`
+
 Compilation & run instructions:
     >$ cd decklist-tool
     >$ python3 main.py
