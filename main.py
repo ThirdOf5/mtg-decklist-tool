@@ -4,6 +4,7 @@ import json # for parsing json blobs returned by scryfall
 import os # for passing system calls to Linux
 import requests # for easy http request processing
 import sys # for sys.argv
+import time # for time.sleep
 
 # Global definition of basic land types
 basic_land_cards = ["plains", "island", "swamp", "mountain", "forest", "wastes"]
@@ -90,7 +91,7 @@ class Deck:
         print("Exporting to PDF. This might take a minute!")
 
         http = http_processing()
-        fname = self.deck_format + '-' + self.deck_name.title().replace(' ', '-')
+        fname = self.deck_format.name + '-' + self.deck_name.title().replace(' ', '-')
         image_list = list()
         counter = 0
         with open(fname + '.tex', 'w') as f:
@@ -154,7 +155,8 @@ class http_processing:
                     img_url = c[i]['image_uris']['large']
                 else:
                     continue
-        path = "./images/" + card.replace(' ', '_') + ".jpg"
+        path = "./images/" + card.replace(' ', '_').replace("'", "") + ".jpg"
+        time.sleep(0.005) # don't let scryfall lock us out
         img_file = open(path, 'wb')
         img_file.write(requests.get(img_url).content)
         img_file.close()
