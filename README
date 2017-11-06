@@ -17,9 +17,9 @@ Usage:
         for the six basic land types.
     - To quit the card-adding repl, type either QUIT or Q.
     - Options available:
-        -s or --save saves the deck to a file
+        -s or --save saves the deck to a plaintext file
         -p or --print prints the deck to stdout
-        -pdf or --proxies prints images of each card in the deck to a pdf
+        -pdf or --proxies prints images of each card in the deck to a PDF
             ==> requires a network connection
             ==> requires pdflatex to be installed on your machine (and
                 currently that your machine is Linux-based, but that hopefully
@@ -29,15 +29,15 @@ Usage:
 
 Ideal use cycle:
     1. the user runs the utility
-        - use flags (see below) to specify what type of output is desired
+        - use flags (see above) to specify what type of output is desired
     2. specify the deck's name and format
     3. enter a repl, where the user enters card quantities and names
     4. when the user is done entering cards, generate the desired output format
 
 Future Work:
-    - better header for the pdf? maybe?
+    - better header for the PDF file? maybe?
     - card format legality validation
-    - add the ability to read and old decklist from a file
+    - add the ability to read and old decklist from a file and edit it
     - print decklist to a PDF
     - add the ability to delineate a sideboard
 
