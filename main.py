@@ -100,6 +100,7 @@ class Deck:
                 card_path = http.get_card_image(card)
                 image_list.append(card_path)
                 for i in range(self.decklist[card]):
+                    # because of card size, we can only fit 4 per row in our pdf
                     if counter == 4:
                         counter = 0
                         f.write('\n')
@@ -109,6 +110,9 @@ class Deck:
             f.write('\\end{landscape}\n')
             f.write('\\end{document}\n')
 
+        # helpful message aimed at impatient users :P
+        print("Exporting to PDF. This might take a minute!")
+
         # if the os call executes with a return status of 0
         if not os.system('pdflatex -halt-on-error -interaction=nonstopmode ' + fname + ' >> /dev/null'):
             print("PDF created")
@@ -117,13 +121,10 @@ class Deck:
 
         # clean up all of the images we downloaded
         for img in image_list:
-            print("Removing " + img)
-            #os.system('rm ' + img) # TODO uncomment this when the image downloader works
+            os.system('rm ' + img)
 
         os.system('rm {}.aux {}.log'.format(fname, fname)) # clean up auxilary files
-        #os.system('rm {}.tex'.format(fname)) # clean up the tex file
-
-        return
+        os.system('rm {}.tex'.format(fname)) # clean up the tex file
 
 class http_processing:
     def __init__(self):
@@ -143,9 +144,15 @@ class http_processing:
         ''' Uses scryfall to pull a png image of a card for printing later.
             Returns the path to the downloaded image.
         '''
-        # TODO pull and save a card image
-        print("TODO make image downloading function")
-        path = "./images/lightning-bolt.jpg"
+        card_info = requests.get(self.scryfall_url + card)
+        img_url = ""
+        if card_info.status_code == 200:
+            # TODO not always [0]
+            img_url = card_info.json()['data'][0]['image_uris']['large']
+        path = "./images/" + card.replace(' ', '_') + ".jpg"
+        img_file = open(path, 'wb')
+        img_file.write(requests.get(img_url).content)
+        img_file.close()
         return path
 
 
