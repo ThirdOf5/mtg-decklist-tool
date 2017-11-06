@@ -1,6 +1,6 @@
 import os
 
-path = "./lightning-bolt.jpg"
+path = "./images/lightning-bolt.jpg"
 fname = "test-proxies"
 
 with open(fname + '.tex', 'w') as f:
