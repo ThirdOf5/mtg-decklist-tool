@@ -77,7 +77,7 @@ class Deck:
         ''' Print our decklist to a file with the same name as the deck's name.
             CAUTION: this will over-write a file with the same name!
         '''
-        with open(self.deck_name.title() + ".txt", 'w') as f:
+        with open(self.deck_name.title().replace(" ", "_") + ".txt", 'w') as f:
             f.write("== {} ==\n".format(self.deck_name.title()))
             f.write("Format: {}\n".format(self.deck_format.name))
             f.write("Total number of cards: {}\n".format(sum(self.decklist.values())))
