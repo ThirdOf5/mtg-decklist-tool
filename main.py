@@ -216,15 +216,24 @@ def create_deck():
     return my_deck
 
 if __name__ == '__main__':
-    d = create_deck()
     # TODO eventually we'll want to create some sort of argument handler class
+    print_deck = False
+    save_txt = False
+    save_pdf = False
     if len(sys.argv) > 1:
         if '-p' in sys.argv or '--print' in sys.argv:
-            d.print_deck()
+            print_deck = True
         if '-s' in sys.argv or '--save' in sys.argv:
-            d.save_deck_txt()
+            save_txt = True
         if '-pdf' in sys.argv or '--proxies' in sys.argv:
-            d.save_deck_proxies()
+            save_pdf = True
         if '-v' in sys.argv or '--no-validation' in sys.argv:
             validate = False
+    d = create_deck()
+    if print_deck:
+        d.print_deck()
+    if save_txt:
+        d.save_deck_txt()
+    if save_pdf:
+        d.save_deck_proxies()
 
