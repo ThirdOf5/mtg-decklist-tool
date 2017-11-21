@@ -25,7 +25,7 @@ class Card:
         print(self.card_name)
 
 class Deck:
-    def __init__(self, deck_name, deck_format=DeckFormat.Standard):
+    def __init__(self, deck_name="", deck_format=DeckFormat.Standard):
         self.deck_name = deck_name
         self.deck_format = deck_format
         self.decklist = dict()
@@ -128,6 +128,9 @@ class Deck:
         os.system('rm {}.aux {}.log'.format(fname, fname)) # clean up auxilary files
         os.system('rm {}.tex'.format(fname)) # clean up the tex file
 
+    def load_deck(self, path):
+        print(path)
+
 class http_processing:
     def __init__(self):
         self.scryfall_url = "https://api.scryfall.com/cards/search?q="
@@ -220,6 +223,7 @@ if __name__ == '__main__':
     print_deck = False
     save_txt = False
     save_pdf = False
+    list_path = ""
     if len(sys.argv) > 1:
         if '-p' in sys.argv or '--print' in sys.argv:
             print_deck = True
@@ -229,11 +233,29 @@ if __name__ == '__main__':
             save_pdf = True
         if '-v' in sys.argv or '--no-validation' in sys.argv:
             validate = False
-    d = create_deck()
-    if print_deck:
-        d.print_deck()
-    if save_txt:
-        d.save_deck_txt()
-    if save_pdf:
-        d.save_deck_proxies()
+        if '-l' in sys.argv:
+            try:
+                list_path = sys.argv[sys.argv.index('-l') + 1]
+            except:
+                print("You need to specify a file to load from!")
+                sys.exit(1)
+        if '--load' in sys.argv:
+            try:
+                list_path = sys.argv[sys.argv.index('--load') + 1]
+            except:
+                print("You need to specify a file to load from!")
+                sys.exit(1)
+
+    d = Deck()
+    if not list_path == "":
+        d.load_deck(list_path)
+    else:
+        d = create_deck()
+        if print_deck:
+            d.print_deck()
+        if save_txt:
+            d.save_deck_txt()
+        if save_pdf:
+            d.save_deck_proxies()
+
 
