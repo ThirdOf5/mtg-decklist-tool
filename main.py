@@ -25,7 +25,7 @@ class Card:
         print(self.card_name)
 
 class Deck:
-    def __init__(self, deck_name="", deck_format=DeckFormat.Standard):
+    def __init__(self, deck_name="default", deck_format=DeckFormat.Standard):
         self.deck_name = deck_name
         self.deck_format = deck_format
         self.decklist = dict()
@@ -46,7 +46,8 @@ class Deck:
         if validate:
             http_obj = http_processing()
             if not http_obj.validate_card(card):
-                print("ERROR: {} is not a real card!".format(card.title()))
+                # print("ERROR: {} is not a real card!".format(card.title())) # FIXME
+                print(card.title())
                 return False
 
         # the core of the function. Everything else is checking for deckbuilding restrictions
@@ -128,8 +129,17 @@ class Deck:
         os.system('rm {}.aux {}.log'.format(fname, fname)) # clean up auxilary files
         os.system('rm {}.tex'.format(fname)) # clean up the tex file
 
-    def load_deck(self, path):
-        print(path)
+    def load_csv(self, path, index):
+        index = int(index)
+        with open(path, 'r') as f:
+            try:
+                for line in f:
+                    #self.add_card(1, line.strip().split(',')[index].strip()) # FIXME
+                    self.add_card(1, line.strip())
+            except:
+                print("There was an unexpected error processing the file")
+                return
+        self.save_deck_proxies()
 
 class http_processing:
     def __init__(self):
@@ -141,7 +151,7 @@ class http_processing:
         if card_info.status_code == 200:
             c = card_info.json()['data']
             for i in range(len(c)):
-                if c[i]['name'].lower() == card:
+                if c[i]['name'].lower() == card.lower():
                     return True
         return False
 
@@ -154,7 +164,7 @@ class http_processing:
         if card_info.status_code == 200:
             c = card_info.json()['data']
             for i in range(len(c)):
-                if c[i]['name'].lower() == card:
+                if c[i]['name'].lower() == card.lower():
                     img_url = c[i]['image_uris']['large']
                 else:
                     continue
@@ -224,6 +234,7 @@ if __name__ == '__main__':
     save_txt = False
     save_pdf = False
     list_path = ""
+    index = -1
     if len(sys.argv) > 1:
         if '-p' in sys.argv or '--print' in sys.argv:
             print_deck = True
@@ -239,16 +250,17 @@ if __name__ == '__main__':
             except:
                 print("You need to specify a file to load from!")
                 sys.exit(1)
-        if '--load' in sys.argv:
+        if '--csv' in sys.argv:
             try:
-                list_path = sys.argv[sys.argv.index('--load') + 1]
+                list_path = sys.argv[sys.argv.index('--csv') + 1]
+                index = sys.argv[sys.argv.index('--csv') + 2]
             except:
-                print("You need to specify a file to load from!")
+                print("You need to specify a file and index to load!")
                 sys.exit(1)
 
     d = Deck()
-    if not list_path == "":
-        d.load_deck(list_path)
+    if not list_path == "" and not index == -1:
+        d.load_csv(list_path, index)
     else:
         d = create_deck()
         if print_deck:
