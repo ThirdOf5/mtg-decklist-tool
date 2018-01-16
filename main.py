@@ -151,6 +151,7 @@ class http_processing:
         if card_info.status_code == 200:
             c = card_info.json()['data']
             for i in range(len(c)):
+                print(c[i]['name'].lower().replace(' ', '_').replace(',','').replace("'", "").replace("/","")) #DEBUG
                 if c[i]['name'].lower().replace(' ', '_').replace(',','').replace("'", "").replace("/","") == card.lower().replace(' ', '_').replace(',','').replace("'", "").replace("/",""):
                     return True
         return False
