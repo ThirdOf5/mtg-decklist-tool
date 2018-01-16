@@ -134,7 +134,6 @@ class Deck:
         with open(path, 'r') as f:
             try:
                 for line in f:
-                    #self.add_card(1, line.strip().split(',')[index].strip()) # FIXME
                     self.add_card(1, line.strip())
             except:
                 print("There was an unexpected error processing the file")
