@@ -30,6 +30,10 @@ Usage:
                 will change soon)
         -v or --no-validation turns off automatic card checking
             ==> necessary if you don't have an internet connection
+        -csv loads card data from a specified csv file
+            the first argument to this option is the file path, and the second
+            is the index at which the card name appears (zero-based). Currently,
+            the index is not used.
 
 Ideal use cycle:
     1. the user runs the utility

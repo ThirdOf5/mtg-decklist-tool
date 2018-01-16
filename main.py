@@ -46,7 +46,7 @@ class Deck:
         if validate:
             http_obj = http_processing()
             if not http_obj.validate_card(card):
-                # print("ERROR: {} is not a real card!".format(card.title())) # FIXME
+                print("ERROR: {} is not a real card!".format(card.title())) # FIXME
                 print(card.title())
                 return False
 
@@ -151,7 +151,7 @@ class http_processing:
         if card_info.status_code == 200:
             c = card_info.json()['data']
             for i in range(len(c)):
-                if c[i]['name'].lower() == card.lower():
+                if c[i]['name'].lower().replace(' ', '_').replace(',','').replace("'", "").replace("/","") == card.lower().replace(' ', '_').replace(',','').replace("'", "").replace("/",""):
                     return True
         return False
 
@@ -164,11 +164,11 @@ class http_processing:
         if card_info.status_code == 200:
             c = card_info.json()['data']
             for i in range(len(c)):
-                if c[i]['name'].lower() == card.lower():
+                if c[i]['name'].lower().replace(' ', '_').replace(',','').replace("'", "").replace("/","") == card.lower().replace(' ', '_').replace(',','').replace("'", "").replace("/",""):
                     img_url = c[i]['image_uris']['large']
                 else:
                     continue
-        path = "./images/" + card.replace(' ', '_').replace("'", "") + ".jpg"
+        path = "./images/" + card.replace(' ', '_').replace(',','').replace("'", "").replace("/","") + ".jpg"
         time.sleep(0.005) # don't let scryfall lock us out
         img_file = open(path, 'wb')
         img_file.write(requests.get(img_url).content)
@@ -250,10 +250,10 @@ if __name__ == '__main__':
             except:
                 print("You need to specify a file to load from!")
                 sys.exit(1)
-        if '--csv' in sys.argv:
+        if '-csv' in sys.argv or '-csv' in sys.argv:
             try:
-                list_path = sys.argv[sys.argv.index('--csv') + 1]
-                index = sys.argv[sys.argv.index('--csv') + 2]
+                list_path = sys.argv[sys.argv.index('-csv') + 1]
+                index = sys.argv[sys.argv.index('-csv') + 2]
             except:
                 print("You need to specify a file and index to load!")
                 sys.exit(1)
