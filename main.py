@@ -151,8 +151,7 @@ class http_processing:
         if card_info.status_code == 200:
             c = card_info.json()['data']
             for i in range(len(c)):
-                print(c[i]['name'].lower().replace(' ', '_').replace(',','').replace("'", "").replace("/","")) #DEBUG
-                if c[i]['name'].lower().replace(' ', '_').replace(',','').replace("'", "").replace("/","") == card.lower().replace(' ', '_').replace(',','').replace("'", "").replace("/",""):
+                if self.__clean_name(c[i]['name']) == self.__clean_name(card):
                     return True
         return False
 
@@ -165,17 +164,19 @@ class http_processing:
         if card_info.status_code == 200:
             c = card_info.json()['data']
             for i in range(len(c)):
-                if c[i]['name'].lower().replace(' ', '_').replace(',','').replace("'", "").replace("/","") == card.lower().replace(' ', '_').replace(',','').replace("'", "").replace("/",""):
+                if self.__clean_name(c[i]['name']) == self.__clean_name(card):
                     img_url = c[i]['image_uris']['large']
                 else:
                     continue
-        path = "./images/" + card.replace(' ', '_').replace(',','').replace("'", "").replace("/","") + ".jpg"
+        path = "./images/" + self.__clean_name(card) + ".jpg"
         time.sleep(0.005) # don't let scryfall lock us out
         img_file = open(path, 'wb')
         img_file.write(requests.get(img_url).content)
         img_file.close()
         return path
 
+    def __clean_name(self, s):
+        return s.lower().replace(' ', '_').replace(',','').replace("'", "").replace("/","")
 
 def create_deck():
     ''' Create and run a REPL to read card names and quantities from the user.'''
@@ -270,5 +271,4 @@ if __name__ == '__main__':
             d.save_deck_txt()
         if save_pdf:
             d.save_deck_proxies()
-
 
