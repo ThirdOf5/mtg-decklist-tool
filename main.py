@@ -156,7 +156,12 @@ class http_processing:
 
     def get_card_image(self, card):
         ''' Uses scryfall to pull a png image of a card for printing later.
-            Returns the path to the downloaded image.
+
+            INPUT:
+                card, the card name we want to download
+
+            OUTPUT:
+                the system path to the downloaded image
         '''
         img_url = ""
         card_info = requests.get(self.scryfall_url + card)
@@ -175,6 +180,14 @@ class http_processing:
         return path
 
     def __clean_name(self, s):
+        ''' Strips annoying characters from a card name.
+
+            INPUT:
+                s, the card name string to clean
+
+            OUTPUT:
+                The card name, without any of the special chars
+        '''
         return s.lower().replace(' ', '_').replace(',','').replace("'", "").replace("/","")
 
 def create_deck():
