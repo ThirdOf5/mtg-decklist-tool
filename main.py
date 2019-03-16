@@ -32,7 +32,7 @@ class Deck:
         self.decklist = dict()
         self.max_copies = 1 if self.deck_format == DeckFormat.EDH else 4
 
-    def add_card(self, number, card):
+    def add_card(self, number, card, card_set=""):
         ''' Add a card to the deck.
 
             INPUT:
@@ -150,7 +150,8 @@ class Deck:
         with open(path, 'r') as f:
             try:
                 for line in f:
-                    self.add_card(1, line.strip()) #TODO
+                    #TODO want to be able to add more than 1 based on csv
+                    self.add_card(1, line.strip())
             except:
                 print("There was an unexpected error processing the file")
                 return
