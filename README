@@ -11,7 +11,7 @@ Dependencies:
 
 Compilation & run instructions:
     >$ cd decklist-tool
-    >$ python3 main.py
+    >$ python3 main.py [options]
 
 Usage:
     - Generally, follow the prompts on-screen.
@@ -48,6 +48,7 @@ Future Work:
     - fix '//' vs ' // '
     - better header for the PDF file? maybe?
     - card format legality validation
+    - add the ability to optionally specify a set that each card comes from
     - add the ability to read and old decklist from a file and edit it
     - add the ability to delineate a sideboard
 
